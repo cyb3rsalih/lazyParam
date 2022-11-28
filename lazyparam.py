@@ -23,7 +23,7 @@ print_lock = threading.Lock()
 q = Queue()
 currentMethod = 'GET' # method for threads to refer to
 num_threads = int(args.num_threads) # default 8 threads
-values = ['../../../../../../../../etc/passwd', 'w', '{{9999*9999}}'] # values to fuzz LFI, RCE, SSTTI
+values = ['/../../../../../../../../../../../../../etc/passwd', 'w', '{{99*99}}'] # values to fuzz LFI, RCE, SSTTI
 bypass_char = '' # for threads to refer to
 
 url = args.url
@@ -100,7 +100,7 @@ def vulnerable(response, vuln):
             return False
     #implementation of SSTI 
     if vuln == 'ssti': #Check SSTI
-    	if '99980001' in response.lower():
+    	if '9801' in response.lower():
     	    return True
     	else:
     	    return False
@@ -143,9 +143,9 @@ def checkUrlParams(url, param, method, values, originalLength):
             else:
                 unknown_param_type = True
 
-    if unknown_param_type:
-        with print_lock:
-            print("%s Found valid param (This might be false positive): %s%s%s" % (info, green,param,end))
+    # if unknown_param_type:
+    #     with print_lock:
+    #         print("%s Found valid param (This might be false positive): %s%s%s" % (info, green,param,end))
 
     with print_lock:
         print("%s Trying: %s" % (info,param), end="\r", flush=True)
